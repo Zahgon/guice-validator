@@ -2,7 +2,6 @@ package ru.vyarus.guice.validator.group.aop;
 
 import com.google.inject.matcher.AbstractMatcher;
 import ru.vyarus.guice.validator.group.annotation.GroupUtils;
-
 import java.lang.reflect.Method;
 
 /**
@@ -17,6 +16,6 @@ public class ValidationGroupMatcher extends AbstractMatcher<Method> {
 
     @Override
     public boolean matches(final Method method) {
-        return !GroupUtils.findAnnotations(method).isEmpty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

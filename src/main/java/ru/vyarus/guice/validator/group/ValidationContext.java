@@ -3,7 +3,6 @@ package ru.vyarus.guice.validator.group;
 import com.google.common.base.Throwables;
 import com.google.inject.name.Named;
 import ru.vyarus.guice.validator.ValidationModule;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import jakarta.validation.groups.Default;
@@ -31,6 +30,7 @@ import java.util.*;
 public class ValidationContext {
 
     private static final Class<?>[] EMPTY = new Class<?>[0];
+
     private final ThreadLocal<List<Class<?>[]>> threadContext = new ThreadLocal<>();
 
     private final boolean addDefaultGroup;
@@ -44,12 +44,7 @@ public class ValidationContext {
      * @return current context validation groups or empty array when no groups defined
      */
     public Class<?>[] getContextGroups() {
-        Class<?>[] res = EMPTY;
-        final List<Class<?>[]> context = threadContext.get();
-        if (context != null) {
-            res = context.get(context.size() - 1);
-        }
-        return res;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -63,15 +58,7 @@ public class ValidationContext {
      * @return object produced by action callback
      */
     public <T> T doWithGroups(final GroupAction<T> action, final Class<?>... groups) {
-        pushContext(groups);
-        try {
-            return action.call();
-        } catch (Throwable ex) {
-            Throwables.throwIfUnchecked(ex);
-            throw new IllegalStateException(ex);
-        } finally {
-            popContext();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("PMD.UseVarargs")

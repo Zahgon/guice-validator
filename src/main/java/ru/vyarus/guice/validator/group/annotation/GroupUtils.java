@@ -1,7 +1,6 @@
 package ru.vyarus.guice.validator.group.annotation;
 
 import com.google.common.collect.Lists;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -25,10 +24,7 @@ public final class GroupUtils {
      * @return list of found annotations (class annotations first) or empty list
      */
     public static List<ValidationGroups> findAnnotations(final Method method) {
-        final Class<?> declaringClass = method.getDeclaringClass();
-        final List<ValidationGroups> annotations = filterAnnotations(declaringClass.getAnnotations());
-        annotations.addAll(filterAnnotations(method.getAnnotations()));
-        return annotations;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static List<ValidationGroups> filterAnnotations(final Annotation... annotations) {

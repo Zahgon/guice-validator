@@ -3,7 +3,6 @@ package ru.vyarus.guice.validator.aop;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import ru.vyarus.guice.validator.group.ValidationContext;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import jakarta.validation.ConstraintViolation;
@@ -33,59 +32,27 @@ public class ValidationMethodInterceptor implements MethodInterceptor {
 
     @Inject
     private ExecutableValidator validator;
+
     @Inject
     private ValidationContext context;
 
     @Override
     public Object invoke(final MethodInvocation invocation) throws Throwable {
-        final Class<?>[] groups = context.getContextGroups();
-
-        Set<ConstraintViolation<Object>> violations = validator.validateParameters(
-                invocation.getThis(), invocation.getMethod(), invocation.getArguments(), groups
-        );
-
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(
-                    getMessage(invocation.getMethod(), invocation.getArguments(), violations), violations);
-        }
-
-        final Object result = invocation.proceed();
-        violations = validator.validateReturnValue(invocation.getThis(), invocation.getMethod(), result, groups);
-
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(
-                    getMessage(invocation.getMethod(), invocation.getArguments(), violations), violations);
-        }
-
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("PMD.ConsecutiveLiteralAppends")
-    private String getMessage(final Member member, final Object[] args,
-                              final Set<? extends ConstraintViolation<?>> violations) {
-        final StringBuilder message = new StringBuilder(300)
-                .append(violations.size())
-                .append(" constraint violation(s) occurred during method validation.")
-                .append("\nConstructor or Method: ").append(member)
-                .append("\nArgument values: ").append(Arrays.toString(args))
-                .append("\nConstraint violations: ");
+    private String getMessage(final Member member, final Object[] args, final Set<? extends ConstraintViolation<?>> violations) {
+        final StringBuilder message = new StringBuilder(300).append(violations.size()).append(" constraint violation(s) occurred during method validation.").append("\nConstructor or Method: ").append(member).append("\nArgument values: ").append(Arrays.toString(args)).append("\nConstraint violations: ");
         int i = 1;
         for (ConstraintViolation<?> constraintViolation : violations) {
             final Path.Node leafNode = getLeafNode(constraintViolation);
-            message.append("\n (")
-                    .append(i++)
-                    .append(") Kind: ")
-                    .append(leafNode.getKind());
+            message.append("\n (").append(i++).append(") Kind: ").append(leafNode.getKind());
             if (leafNode.getKind() == ElementKind.PARAMETER) {
-                message.append("\n parameter index: ")
-                        .append(leafNode.as(Path.ParameterNode.class).getParameterIndex());
+                message.append("\n parameter index: ").append(leafNode.as(Path.ParameterNode.class).getParameterIndex());
             }
-            message.append("\n message: ").append(constraintViolation.getMessage())
-                    .append("\n root bean: ").append(constraintViolation.getRootBean())
-                    .append("\n property path: ").append(constraintViolation.getPropertyPath())
-                    .append("\n constraint: ").append(constraintViolation.getConstraintDescriptor().getAnnotation());
+            message.append("\n message: ").append(constraintViolation.getMessage()).append("\n root bean: ").append(constraintViolation.getRootBean()).append("\n property path: ").append(constraintViolation.getPropertyPath()).append("\n constraint: ").append(constraintViolation.getConstraintDescriptor().getAnnotation());
         }
-
         return message.toString();
     }
 

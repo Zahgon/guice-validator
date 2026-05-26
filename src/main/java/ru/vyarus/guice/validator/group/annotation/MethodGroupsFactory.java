@@ -2,7 +2,6 @@ package ru.vyarus.guice.validator.group.annotation;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.name.Named;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import jakarta.validation.groups.Default;
@@ -34,6 +33,7 @@ public class MethodGroupsFactory {
      * If value is 'false' - cache disabled, otherwise cache enabled.
      */
     public static final String CACHE_PROPERTY = MethodGroupsFactory.class.getName() + ".cache";
+
     // lock will not affect performance for cached descriptors, just to make sure nothing was build two times
     private static final ReentrantLock LOCK = new ReentrantLock();
 
@@ -47,26 +47,7 @@ public class MethodGroupsFactory {
     }
 
     public Class<?>[] create(final Method method) {
-        Class<?>[] groups = cache.get(method);
-        if (groups == null) {
-            LOCK.lock();
-            try {
-                // groups could be created while thread wait for LOCK
-                groups = cache.get(method);
-                if (groups == null) {
-                    groups = buildGroups(method);
-                    if (isCacheEnabled()) {
-                        // internal check
-                        Preconditions.checkState(cache.get(method) == null,
-                                "Bad concurrency: groups already present in cache");
-                        cache.put(method, groups);
-                    }
-                }
-            } finally {
-                LOCK.unlock();
-            }
-        }
-        return groups;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private Class<?>[] buildGroups(final Method method) {
@@ -89,27 +70,20 @@ public class MethodGroupsFactory {
      * @see #CACHE_PROPERTY
      */
     public void clearCache() {
-        LOCK.lock();
-        try {
-            cache.clear();
-        } finally {
-            LOCK.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Disables descriptors cache.
      */
     public static void disableCache() {
-        System.setProperty(CACHE_PROPERTY, Boolean.FALSE.toString());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * @return true is cache enabled, false otherwise
      */
     public static boolean isCacheEnabled() {
-        final String no = Boolean.FALSE.toString();
-        return !no.equals(System.getenv(CACHE_PROPERTY))
-                && !no.equals(System.getProperty(CACHE_PROPERTY));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

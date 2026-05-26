@@ -1,7 +1,6 @@
 package ru.vyarus.guice.validator.aop;
 
 import com.google.inject.matcher.AbstractMatcher;
-
 import jakarta.validation.Constraint;
 import jakarta.validation.Valid;
 import java.lang.annotation.Annotation;
@@ -19,16 +18,7 @@ public class ValidatedMethodMatcher extends AbstractMatcher<Method> {
 
     @Override
     public boolean matches(final Method method) {
-        boolean matches = isValidationAnnotations(method.getAnnotations());
-        if (!matches) {
-            for (Annotation[] annotations : method.getParameterAnnotations()) {
-                if (isValidationAnnotations(annotations)) {
-                    matches = true;
-                    break;
-                }
-            }
-        }
-        return matches;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean isValidationAnnotations(final Annotation... annotations) {

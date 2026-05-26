@@ -18,12 +18,12 @@ public class ValidationGroupInterceptor implements MethodInterceptor {
 
     @Inject
     private ValidationContext context;
+
     @Inject
     private MethodGroupsFactory factory;
 
     @Override
     public Object invoke(final MethodInvocation invocation) {
-        final Class<?>[] groups = factory.create(invocation.getMethod());
-        return context.doWithGroups(invocation::proceed, groups);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

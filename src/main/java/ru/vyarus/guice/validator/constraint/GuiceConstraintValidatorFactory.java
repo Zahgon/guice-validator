@@ -1,7 +1,6 @@
 package ru.vyarus.guice.validator.constraint;
 
 import com.google.inject.Injector;
-
 import com.google.inject.Inject;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorFactory;
@@ -22,14 +21,11 @@ public class GuiceConstraintValidatorFactory implements ConstraintValidatorFacto
 
     @Override
     public <T extends ConstraintValidator<?, ?>> T getInstance(final Class<T> key) {
-        /* By default, all beans are in prototype scope, so new instance will be obtained each time.
-         Validator implementer may declare it as singleton and manually maintain internal state
-         (to re-use validators and simplify life for GC) */
-        return injector.getInstance(key);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void releaseInstance(final ConstraintValidator<?, ?> instance) {
-        /* Garbage collector will do it */
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

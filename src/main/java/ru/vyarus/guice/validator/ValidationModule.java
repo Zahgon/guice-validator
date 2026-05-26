@@ -11,7 +11,6 @@ import ru.vyarus.guice.validator.constraint.GuiceConstraintValidatorFactory;
 import ru.vyarus.guice.validator.group.ValidationContext;
 import ru.vyarus.guice.validator.group.aop.ValidationGroupInterceptor;
 import ru.vyarus.guice.validator.group.aop.ValidationGroupMatcher;
-
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
@@ -55,8 +54,11 @@ public class ValidationModule extends AbstractModule {
     private final ValidatorFactory factory;
 
     private Matcher<? super Class<?>> classMatcher = Matchers.any();
+
     private Matcher<? super Method> methodMatcher = DECLARED_METHOD_MATCHER;
+
     private Class<? extends Annotation> validationAnnotation;
+
     private boolean addDefaultGroup = true;
 
     /**
@@ -86,8 +88,7 @@ public class ValidationModule extends AbstractModule {
      * @return module instance for chained calls
      */
     public ValidationModule strictGroupsDeclaration() {
-        this.addDefaultGroup = false;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -99,7 +100,7 @@ public class ValidationModule extends AbstractModule {
      * @return module instance for chained calls
      */
     public ValidationModule validateAnnotatedOnly() {
-        return validateAnnotatedOnly(ValidateOnExecution.class);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -120,8 +121,7 @@ public class ValidationModule extends AbstractModule {
      * @see #validateAnnotatedOnly() for default annotation ({@link ValidateOnExecution})
      */
     public ValidationModule validateAnnotatedOnly(final Class<? extends Annotation> annotation) {
-        this.validationAnnotation = annotation;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -134,8 +134,7 @@ public class ValidationModule extends AbstractModule {
      * @return module instance for chained calls
      */
     public ValidationModule targetClasses(final Matcher<? super Class<?>> classMatcher) {
-        this.classMatcher = classMatcher;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -149,34 +148,12 @@ public class ValidationModule extends AbstractModule {
      * @see DeclaredMethodMatcher for default matcher
      */
     public ValidationModule targetMethods(final Matcher<? super Method> methodMatcher) {
-        this.methodMatcher = methodMatcher;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected void configure() {
-        final GuiceConstraintValidatorFactory constraintValidatorFactory = new GuiceConstraintValidatorFactory();
-        requestInjection(constraintValidatorFactory);
-
-        /* Overriding just constraints factory to allow them use guice injections */
-        final Validator validator = factory.usingContext()
-                .constraintValidatorFactory(constraintValidatorFactory)
-                .getValidator();
-
-        bind(Validator.class).toInstance(validator);
-        bind(ExecutableValidator.class).toInstance(validator.forExecutables());
-        // NOTE bound factory is not aware of guice! because it use default ConstraintValidatorFactory
-        bind(ValidatorFactory.class).toInstance(factory);
-        bind(ValidationContext.class);
-
-        bindConstant().annotatedWith(Names.named("guice.validator.addDefaultGroup")).to(addDefaultGroup);
-        final ValidationGroupInterceptor groupInterceptor = new ValidationGroupInterceptor();
-        requestInjection(groupInterceptor);
-        configureGroupsAop(groupInterceptor);
-
-        final ValidationMethodInterceptor interceptor = new ValidationMethodInterceptor();
-        requestInjection(interceptor);
-        configureAop(interceptor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -186,7 +163,7 @@ public class ValidationModule extends AbstractModule {
      * @param interceptor validation groups method interceptor
      */
     protected void configureGroupsAop(final ValidationGroupInterceptor interceptor) {
-        bindInterceptor(Matchers.any(), new ValidationGroupMatcher(), interceptor);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -195,41 +172,21 @@ public class ValidationModule extends AbstractModule {
      * @param interceptor validation method interceptor
      */
     protected void configureAop(final ValidationMethodInterceptor interceptor) {
-        if (validationAnnotation != null) {
-            // EXPLICIT MODE
-
-            // all annotated methods
-            bindInterceptor(classMatcher, getMethodMatcher(validationAnnotation), interceptor);
-            // all methods in annotated beans (do not search for validation annotations!)
-            bindInterceptor(getClassMatcher(validationAnnotation), methodMatcher, interceptor);
-        } else {
-            // IMPLICIT MODE
-
-            // methods searched by validation annotations appearance
-            bindInterceptor(classMatcher, getValidatedMethodMatcher(), interceptor);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-    @SuppressWarnings({"unchecked", "PMD.CompareObjectsWithEquals"})
+    @SuppressWarnings({ "unchecked", "PMD.CompareObjectsWithEquals" })
     protected Matcher<? super Class<?>> getClassMatcher(final Class<? extends Annotation> annotation) {
-        final Matcher<AnnotatedElement> res = Matchers.annotatedWith(annotation);
-        return classMatcher == Matchers.any()
-                // combine custom filter with annotation
-                ? res : res.and((Matcher<? super AnnotatedElement>) classMatcher);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     protected Matcher<? super Method> getMethodMatcher(final Class<? extends Annotation> annotation) {
-        final Matcher<AnnotatedElement> res = Matchers.annotatedWith(annotation);
-        return methodMatcher == DECLARED_METHOD_MATCHER
-                // combine custom filter with annotation
-                ? res : res.and((Matcher<? super AnnotatedElement>) methodMatcher);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
     protected Matcher<? super Method> getValidatedMethodMatcher() {
-        final Matcher<Method> res = new ValidatedMethodMatcher();
-        // combine custom filter with annotation
-        return methodMatcher == Matchers.any() ? res : res.and(methodMatcher);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
